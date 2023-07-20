@@ -23,7 +23,15 @@ public class Code01_RetainTree {
 			nexts = new ArrayList<>();
 		}
 	}
+	class TreeNode {
+		String color; // Assuming color is represented as a String ("black" or "white")
+		List<TreeNode> children;
 
+		public TreeNode(String color) {
+			this.color = color;
+			this.children = new ArrayList<>();
+		}
+	}
 	// 给定一棵树的头节点head
 	// 请按照题意，保留节点，没有保留的节点删掉
 	// 树调整完之后，返回头节点
@@ -57,6 +65,23 @@ public class Code01_RetainTree {
 		}
 	}
 
+
+	public TreeNode removeWhiteNodes(TreeNode root) {
+		if (root == null) {
+			return null;
+		}
+
+		List<TreeNode> newChildren = new ArrayList<>();
+		for (TreeNode child : root.children) {
+			TreeNode newChild = removeWhiteNodes(child);
+			if (newChild != null && newChild.color.equals("black")) {
+				newChildren.add(newChild);
+			}
+		}
+		root.children = newChildren;
+
+		return root;
+	}
 	public static void main(String[] args) {
 		Node n1 = new Node(1, false);
 		Node n2 = new Node(2, true);
@@ -88,6 +113,24 @@ public class Code01_RetainTree {
 		Node head = retain(n1);
 		preOrderPrint(head);
 
+//		TreeNode root = new TreeNode("black");
+//		TreeNode node1 = new TreeNode("white");
+//		TreeNode node2 = new TreeNode("black");
+//		TreeNode node3 = new TreeNode("black");
+//		TreeNode node4 = new TreeNode("white");
+//		TreeNode node5 = new TreeNode("white");
+//		root.children.add(node1);
+//		root.children.add(node2);
+//		root.children.add(node3);
+//		node2.children.add(node4);
+//		node3.children.add(node5);
+//
+//		// Use the removeWhiteNodes method to keep black nodes
+//
+//		TreeNode newRoot = this.removeWhiteNodes(root);
+//
+//		// Print the new tree structure
+//		printTree(newRoot);
 	}
 
 }
